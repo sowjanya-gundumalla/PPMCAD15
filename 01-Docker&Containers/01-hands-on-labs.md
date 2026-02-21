@@ -537,6 +537,7 @@ docker run cmd-demo
 docker run cmd-demo echo "Goodbye!"
 docker run cmd-demo ls /
 docker run cmd-demo whoami
+docker run -it cmd-demo sh
 ```
 
 **Key Learning:** CMD is easily overridden!

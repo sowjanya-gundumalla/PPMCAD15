@@ -157,10 +157,10 @@ v1.0: digest: sha256:abc123... size: 1234
 
 Remove all local copies:
 ```bash
-docker rmi YOUR-USERNAME/hub-demo-app:v1.0
-docker rmi YOUR-USERNAME/hub-demo-app:latest
-docker rmi YOUR-USERNAME/hub-demo-app:$(date +%Y%m%d)
-docker rmi hub-demo-app:latest
+docker rmi -f YOUR-USERNAME/hub-demo-app:v1.0
+docker rmi -f YOUR-USERNAME/hub-demo-app:latest
+docker rmi -f YOUR-USERNAME/hub-demo-app:$(date +%Y%m%d)
+docker rmi -f hub-demo-app:latest
 ```
 
 Verify they're gone:
@@ -606,85 +606,5 @@ docker compose down -v
 
 ### ✅ Lab 2 Complete!
 You've built a production-ready two-tier application!
-
----
-
-## Lab 3: Environment-Specific Configurations
-
-### Objective
-Learn to use different configurations for development vs production.
-
-### Step 1: Create Environment Files
-
-In `flask-postgres-app` directory:
-
-Create `.env.dev`:
-```env
-DB_HOST=db
-DB_NAME=devdb
-DB_USER=postgres
-DB_PASSWORD=devpassword123
-FLASK_ENV=development
-LOG_LEVEL=DEBUG
-```
-
-Create `.env.prod`:
-```env
-DB_HOST=db
-DB_NAME=proddb
-DB_USER=postgres
-DB_PASSWORD=prod_secure_password_456
-FLASK_ENV=production
-LOG_LEVEL=WARNING
-```
-
-### Step 2: Update docker-compose.yml
-
-Modify the `web` service to use env files:
-
-```yaml
-services:
-  web:
-    build: .
-    env_file:
-      - .env.dev  # or .env.prod
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
-    networks:
-      - app-network
-```
-
-### Step 3: Test Development Configuration
-
-```bash
-# Using development env
-docker compose --env-file .env.dev up -d
-
-# Check environment variables
-docker compose exec web env | grep DB_
-docker compose exec web env | grep FLASK_
-
-docker compose down
-```
-
-### Step 4: Test Production Configuration
-
-```bash
-# Using production env
-docker compose --env-file .env.prod up -d
-
-# Check environment variables
-docker compose exec web env | grep DB_
-docker compose exec web env | grep FLASK_
-
-docker compose down
-```
-
-**Benefit:** Same compose file, different configurations! ✅
-
-### ✅ Lab 3 Complete!
-Environment-specific configs mastered!
 
 ---

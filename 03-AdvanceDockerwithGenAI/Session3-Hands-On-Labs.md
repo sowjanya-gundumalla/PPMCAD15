@@ -521,7 +521,7 @@ You've deployed a local AI model in Docker! 🎉
 
 ---
 
-## Lab 3: Security & Resource Management (5 minutes)
+## Lab 3: Security & Resource Management
 
 ### Objective
 Implement production security and resource controls.
