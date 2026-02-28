@@ -244,6 +244,11 @@ docker push $REPO_URI:v1.0
 
 **Create an ECS Cluster with Fargate:**
 
+this needs to be created once...
+
+aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com
+
+
 ```bash
 aws ecs create-cluster \
     --cluster-name $CLUSTER_NAME \
@@ -414,7 +419,7 @@ cat task-definition.json | \
 
 ```bash
 aws ecs register-task-definition \
-    --cli-input-json file://task-def-final.json \
+    --cli-input-json file://task-definition.json \
     --region $REGION
 
 # Get task definition ARN
