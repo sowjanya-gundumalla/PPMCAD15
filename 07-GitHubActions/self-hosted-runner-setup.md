@@ -64,6 +64,8 @@ sudo systemctl start docker
 # Create a dedicated runner user (don't run as root)
 sudo useradd -m -s /bin/bash github-runner
 sudo usermod -aG docker github-runner
+sudo usermod -aG sudo github-runner
+echo "github-runner ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/github-runner
 ```
 
 > **Why a dedicated user?** The runner executes arbitrary code from your workflows. Using a dedicated non-root user limits the blast radius if something goes wrong.
