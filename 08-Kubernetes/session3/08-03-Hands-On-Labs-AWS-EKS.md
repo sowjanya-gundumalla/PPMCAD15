@@ -30,7 +30,28 @@ Download kubeconfig and verify kubectl connectivity to the EKS cluster.
 
 ### Steps
 
-1. **Update kubeconfig**
+1. **Grant your IAM user/role access to the cluster**
+
+   First, get your IAM ARN:
+   ```bash
+   aws sts get-caller-identity --query Arn --output text
+   ```
+   Expected output:
+   ```
+   arn:aws:iam::123456789:user/your-username
+   ```
+
+2. Add this ARN as an access entry in the EKS console:
+
+   - Open the [EKS console](https://console.aws.amazon.com/eks/) and select your cluster (`myapp-cluster`).
+   - Go to the **Access** tab.
+   - Under **IAM access entries**, click **Create access entry**.
+   - In the **IAM principal ARN** field, paste the ARN from the previous step.
+   - Set **Type** to `Standard` and click **Next**.
+   - On the **Add access policy** step, select a policy such as `AmazonEKSClusterAdminPolicy` (for full admin access), and click **Add policy**.
+   - Click **Next**, review the configuration, then click **Create**.
+
+3. **Update kubeconfig**
    ```bash
    aws eks update-kubeconfig \
      --name myapp-cluster \
@@ -41,7 +62,7 @@ Download kubeconfig and verify kubectl connectivity to the EKS cluster.
    Added new context arn:aws:eks:us-east-1:123456789:cluster/myapp-cluster to /home/user/.kube/config
    ```
 
-2. **Verify kubeconfig**
+4. **Verify kubeconfig**
    ```bash
    cat ~/.kube/config
    ```
@@ -50,13 +71,13 @@ Download kubeconfig and verify kubectl connectivity to the EKS cluster.
    - `contexts:` section with cluster name
    - `current-context:` set to your EKS cluster
 
-3. **List current context**
+5. **List current context**
    ```bash
    kubectl config current-context
    ```
    Expected output: `arn:aws:eks:us-east-1:123456789:cluster/myapp-cluster`
 
-4. **Get cluster info**
+6. **Get cluster info**
    ```bash
    kubectl cluster-info
    ```
@@ -66,7 +87,7 @@ Download kubeconfig and verify kubectl connectivity to the EKS cluster.
    CoreDNS is running at https://xxxxx.eks.amazonaws.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
    ```
 
-5. **Check cluster nodes**
+7. **Check cluster nodes**
    ```bash
    kubectl get nodes
    ```
@@ -78,13 +99,13 @@ Download kubeconfig and verify kubectl connectivity to the EKS cluster.
    ```
    Note: Node names use VPC CIDR IPs
 
-6. **Check system namespaces**
+8. **Check system namespaces**
    ```bash
    kubectl get pods -n kube-system
    ```
    Expected pods: `coredns`, `kube-proxy`, `aws-node` (VPC CNI), `ebs-csi-controller`
 
-7. **Get more node details**
+9. **Get more node details**
    ```bash
    kubectl describe node <node-name>
    ```

@@ -15,3 +15,6 @@
 # VS Code
 .vscode/
 **/.vscode/
+
+# PowerPoint files which are open
+~$*.pptx
