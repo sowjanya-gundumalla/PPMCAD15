@@ -1,6 +1,6 @@
 # Session 8-05:  Networking - Services & Service Discovery Labs
 
-This document contains 6 practical labs to build hands-on experience with Kubernetes Services.
+This document contains practical labs to build hands-on experience with Kubernetes Services.
 
 ---
 
@@ -255,7 +255,7 @@ Understand how Kubernetes DNS resolves service names and test various FQDN forma
    kubectl run -it dns-test --image=alpine --restart=Never -- sh
 
    # Inside the pod:
-   apk add --no-cache dnsutils curl
+   apk add --no-cache curl
    ```
 
 3. **Test DNS resolution with short name**
@@ -285,6 +285,10 @@ Understand how Kubernetes DNS resolves service names and test various FQDN forma
    curl http://nginx-service.default.svc.cluster.local:80
    ```
    Expected: nginx welcome page
+
+   ```bash
+   kubectl delete pod dns-test
+   ```
 
 7. **Test DNS for service in different namespace**
    ```bash
